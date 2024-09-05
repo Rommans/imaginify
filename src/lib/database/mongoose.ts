@@ -1,6 +1,6 @@
 import mongoose, { Mongoose } from "mongoose";
 
-const MONGODB_URL = process.env.MONGODB_URL;
+const MONGODB_URL = process.env.MONGODB_URL!;
 
 interface MongooseConnection {
   connection: Mongoose | null;
@@ -14,7 +14,7 @@ if (!cached) {
 }
 
 export const connectToDatabase = async () => {
-  if (!cached.connection) return cached.connection;
+  if (cached.connection) return cached.connection;
   if (!MONGODB_URL) throw new Error("MONGODB_URL is not defined");
 
   cached.promise =
@@ -22,6 +22,7 @@ export const connectToDatabase = async () => {
     mongoose.connect(MONGODB_URL, {
       dbName: "imaginify",
       bufferCommands: false,
+      connectTimeoutMS: 30000,
     });
 
   cached.connection = await cached.promise;
