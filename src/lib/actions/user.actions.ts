@@ -26,8 +26,8 @@ export async function getUserById(userId: string) {
   try {
     await connectToDatabase();
 
-    const user = await User.findOne({ clerkId: userId });
-
+    const user = await User.findOne({ clerkID: userId });
+    // console.log("getUserById user", user)
     if (!user) throw new Error("User not found");
 
     return JSON.parse(JSON.stringify(user));
@@ -37,11 +37,11 @@ export async function getUserById(userId: string) {
 }
 
 // UPDATE
-export async function updateUser(clerkId: string, user: UpdateUserParams) {
+export async function updateUser(clerkID: string, user: UpdateUserParams) {
   try {
     await connectToDatabase();
 
-    const updatedUser = await User.findOneAndUpdate({ clerkId }, user, {
+    const updatedUser = await User.findOneAndUpdate({ clerkID }, user, {
       new: true,
     });
 
@@ -54,12 +54,12 @@ export async function updateUser(clerkId: string, user: UpdateUserParams) {
 }
 
 // DELETE
-export async function deleteUser(clerkId: string) {
+export async function deleteUser(clerkID: string) {
   try {
     await connectToDatabase();
 
     // Find user to delete
-    const userToDelete = await User.findOne({ clerkId });
+    const userToDelete = await User.findOne({ clerkID });
 
     if (!userToDelete) {
       throw new Error("User not found");

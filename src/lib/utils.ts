@@ -111,6 +111,7 @@ export const getImageSize = (
 
 // DOWNLOAD IMAGE
 export const download = (url: string, filename: string) => {
+  console.log(url);
   if (!url) {
     throw new Error("Resource URL not provided! You need to provide one");
   }
